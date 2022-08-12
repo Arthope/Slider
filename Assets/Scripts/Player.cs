@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public event UnityAction<int, int> HealthChanged;
     public int Health => _health;
     private int _currentHealth;
+    private int _maxHealth = 100;
+    private int _minHealth = 0;
    
 
     private void Start()
@@ -21,12 +23,14 @@ public class Player : MonoBehaviour
     public void Damage(int damage)
     {
         _health -= damage;
+       _health = Mathf.Clamp(_health , _minHealth, _maxHealth );
         HealthChanged?.Invoke(_health, _currentHealth);
     }
 
     public void Heal(int health)
     {
         _health += health;
+       _health = Mathf.Clamp(_health, _minHealth, _maxHealth);
         HealthChanged?.Invoke(_health, _currentHealth);
     }
 
